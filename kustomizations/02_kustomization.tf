@@ -2,7 +2,7 @@
 resource "tanzu-mission-control_kustomization" "cluster_kustomization" {
   name = "namespace-settings-kustomization" # Required
 
-  namespace_name = "ipablo-ns" #Required
+  namespace_name = "tanzu-continuousdelivery-resources" #Required
 
   depends_on = [tanzu-mission-control_git_repository.git_repository]
 
