@@ -43,3 +43,8 @@ variable "cluster_name" {
     description = "Name of the cluster to be created."
     type = string
 }
+
+variable "tkr" {
+    description = "Tanzu Kubernetes Release version string."
+    type = string
+}

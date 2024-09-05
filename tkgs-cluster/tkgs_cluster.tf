@@ -5,6 +5,13 @@ locals {
       "daysBefore" : 30
     },
     "defaultStorageClass" : "lab-shared-storage",
+    #"ntp" : "192.168.110.10",
+    "storageClass" : "lab-shared-storage",
+    "storageClasses" : [
+      "lab-shared-storage",
+      "vsan-default-storage-policy"
+    ],
+    "vmClass" : "best-effort-medium",
     "nodePoolLabels" : [
 
     ],
@@ -25,13 +32,7 @@ locals {
         "name" : "kubelet",
         "storageClass" : "lab-shared-storage"
       }
-    ],
-    "ntp" : "172.16.20.10",
-    "storageClass" : "lab-shared-storage",
-    "storageClasses" : [
-      "lab-shared-storage"
-    ],
-    "vmClass" : "best-effort-medium"
+    ]
   }
 
   tkgs_nodepool_a_overrides = {
@@ -55,8 +56,7 @@ resource "tanzu-mission-control_tanzu_kubernetes_cluster" "tkgs_cluster" {
     cluster_group_name = var.cluster_group  
 
     topology {
-      version           = "v1.26.5+vmware.2-fips.1-tkg.1"
-      #version           = "v1.25.7+vmware.3-fips.1-tkg.1"
+      version           = var.tkr
       cluster_class     = "tanzukubernetescluster"
       cluster_variables = jsonencode(local.tkgs_cluster_variables)
 
@@ -76,7 +76,7 @@ resource "tanzu-mission-control_tanzu_kubernetes_cluster" "tkgs_cluster" {
 
         spec {
           worker_class = "node-pool"
-          replicas     = 3
+          replicas     = 4
           overrides    = jsonencode(local.tkgs_nodepool_a_overrides)
 
           os_image {
